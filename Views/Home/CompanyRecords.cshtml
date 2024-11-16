@@ -1,0 +1,87 @@
+﻿@model StaffSyncWeb.Models.CompanyRecordsViewModel
+
+@{
+    ViewData["Title"] = "Company Records";
+}
+
+<div class="text-center">
+    <h1>Company Records</h1>
+</div>
+
+<!-- Display the existing Company records -->
+<div class="table-responsive mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Employees Hired</th>
+                <th>Employees Fired</th>
+                <th>Turnover Rate</th>
+                <th>Profits</th>
+                <th>Expenses</th>
+                <th>Net Profit/Loss</th>
+                <th>Current Headcount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model.CompanyRecords)
+            {
+                <tr>
+                    <td>@record.month</td>
+                    <td>@record.employees_hired</td>
+                    <td>@record.employees_fired</td>
+                    <td>@record.turnover_rate</td>
+                    <td>@record.profits</td>
+                    <td>@record.expenses</td>
+                    <td>@record.net_profit_loss</td>
+                    <td>@record.current_headcount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Form to input new monthly data -->
+<h2 class="text-center">Add New Monthly Record</h2>
+
+<div class="container mt-4">
+    <form asp-action="AddMonthlyRecord" method="post">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="month">Month</label>
+                <input type="text" id="month" name="month" class="form-control" placeholder="e.g., January" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="employees_hired">Employees Hired</label>
+                <input type="number" id="employees_hired" name="employees_hired" class="form-control" value="0" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="employees_fired">Employees Fired</label>
+                <input type="number" id="employees_fired" name="employees_fired" class="form-control" value="0" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="turnover_rate">Turnover Rate (%)</label>
+                <input type="number" step="0.01" id="turnover_rate" name="turnover_rate" class="form-control" value="0" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="profits">Profits</label>
+                <input type="number" step="0.01" id="profits" name="profits" class="form-control" value="0" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="expenses">Expenses</label>
+                <input type="number" step="0.01" id="expenses" name="expenses" class="form-control" value="0" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="net_profit_loss">Net Profit/Loss</label>
+                <input type="number" step="0.01" id="net_profit_loss" name="net_profit_loss" class="form-control" value="0" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="current_headcount">Current Headcount</label>
+                <input type="number" id="current_headcount" name="current_headcount" class="form-control" value="0" />
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>

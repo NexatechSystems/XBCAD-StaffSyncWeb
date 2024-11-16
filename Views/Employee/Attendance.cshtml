@@ -1,0 +1,45 @@
+﻿@model IEnumerable<StaffSyncWeb.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="text-center">
+    <h1>Attendance</h1>
+</div>
+
+<div class="d-flex justify-content-end mt-3">
+    <button class="btn custom-refresh-button" onclick="refreshPage()">
+        <i class="bi bi-arrow-clockwise"></i> Refresh
+    </button>
+</div>
+
+<div class="table-responsive mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Clocked In</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var record in Model)
+            {
+                <tr>
+                    <td>@record.employee_email</td>
+                    <td>@record.name</td>
+                    <td>@record.surname</td>
+                    <td>@(record.clocked_in ? "✔️" : "❌")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function refreshPage() {
+        location.reload();
+    }
+</script>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<StaffSyncWeb.Models.Salary>
+
+@{
+    ViewData["Title"] = "Salaries";
+}
+
+<div class="text-center">
+    <h1>Salaries</h1>
+</div>
+
+<div class="table-responsive mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Position</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var salary in Model)
+            {
+                <tr>
+                    <td>@salary.employee_id</td>
+                    <td>@salary.amount.ToString("C")</td>
+                    <td>@salary.position</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-controller="Finance" asp-action="Edit" asp-route-id="@salary.employee_id">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

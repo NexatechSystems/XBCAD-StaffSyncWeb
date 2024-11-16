@@ -1,0 +1,38 @@
+﻿@model StaffSyncWeb.Models.Programs
+
+@{
+    ViewData["Title"] = "Create a Program";
+}
+
+<h2>Create Program</h2>
+
+<form asp-action="CreateProgram" asp-controller="Comms" method="post">
+    <div class="form-group">
+        <label for="employeeEmail">Employee Email</label>
+        <select asp-for="employee_email" class="form-control" asp-items="ViewBag.EmployeeEmails" required>
+            <option value="">-- Select Employee --</option>
+        </select>
+        <span asp-validation-for="employee_email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="subject">Subject</label>
+        <input asp-for="subject" class="form-control" placeholder="Enter program subject" required />
+        <span asp-validation-for="subject" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="description">Description</label>
+        <textarea asp-for="description" class="form-control" rows="4" placeholder="Enter program description" required></textarea>
+        <span asp-validation-for="description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="link">Link</label>
+        <input asp-for="link" class="form-control" placeholder="Enter program link" required />
+        <span asp-validation-for="link" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Program</button>
+    <a asp-action="Programs" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<StaffSyncWeb.Models.Leave>
+
+@{
+    ViewData["Title"] = "Leave Requests";
+}
+
+<div class="text-center">
+    <h1>Leave Requests</h1>
+</div>
+
+<div class="table-responsive mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Leave ID</th>
+                <th>Email</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Information</th>
+                <th>Approved</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var leave in Model)
+            {
+                <tr>
+                    <td>@leave.leave_id</td>
+                    <td>@leave.employee_email</td>
+                    <td>@leave.leave_type</td>
+                    <td>@leave.start_date.ToString("yyyy-MM-dd")</td>
+                    <td>@leave.end_date.ToString("yyyy-MM-dd")</td>
+                    <td>@leave.information</td>
+                    <td>@(leave.approved ? "✔️" : "❌")</td>
+                    <td>
+                        <form asp-action="ApproveLeave" asp-controller="Employee" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@leave.leave_id" />
+                            <button type="submit" class="btn btn-success btn-sm" @(leave.approved ? "disabled" : "")>Approve</button>
+                        </form>
+                        <form asp-action="DeclineLeave" asp-controller="Employee" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@leave.leave_id" />
+                            <button type="submit" class="btn btn-danger btn-sm" @(leave.approved ? "disabled" : "")>Decline</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

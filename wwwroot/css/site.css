@@ -1,0 +1,66 @@
+/* Full height sidebar background color */
+.custom-sidebar {
+    background-color: #242323;
+    height: 100vh;
+    margin-top: 0;
+    padding-top: 0;
+    position: fixed; /* Fixes the sidebar in place */
+    top: 75px; /* Aligns it with the top of the viewport */
+    left: 0;
+}
+
+/* Logo in the navbar */
+.navbar-logo {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+/* Background logo wrapper styling */
+.background-logo-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: -1; /* Place behind other content */
+    pointer-events: none; /* Makes it non-clickable */
+}
+
+.centered-logo {
+    max-width: 200px; /* Adjust logo size as needed */
+    opacity: 0.2; /* Optional: Adjust opacity if you want it faint */
+}
+
+/* Sidebar link styles */
+.custom-sidebar .nav-link {
+    color: #ffffff; /* Replace with your desired color */
+}
+
+.custom-sidebar .nav-link:hover {
+        color: #ff9501; /* Replace with your desired hover color */
+
+}
+
+.custom-refresh-button {
+    background-color: #ff9501; /* Custom background color */
+    color: white; /* Custom text color */
+    border: none; /* Optional: remove border */
+}
+
+    .custom-refresh-button:hover {
+        background-color: #bfbccb; /* Slightly darker color on hover */
+    }
+
+.custom-add-button{
+    background-color: #ffffff;
+    color: black;
+    border: #ff9501;
+}
+
+.custom-add-button:hover{
+    background-color: #bfbccb;
+}

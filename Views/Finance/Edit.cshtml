@@ -1,0 +1,29 @@
+﻿@model StaffSyncWeb.Models.Salary
+
+@{
+    ViewData["Title"] = "Edit Salary";
+}
+
+<h2>Edit Salary</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="form-group">
+        <label asp-for="employee_id"></label>
+        <input asp-for="employee_id" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="amount"></label>
+        <input asp-for="amount" class="form-control" />
+        <span asp-validation-for="amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="position"></label>
+        <input asp-for="position" class="form-control" readonly />
+        <span asp-validation-for="position" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Salary" class="btn btn-secondary">Cancel</a>
+</form>

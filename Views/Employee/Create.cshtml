@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Add New Employee";
+}
+
+<h2>Add New Employee</h2>
+
+<div class="container mt-4">
+    <form asp-action="AddEmployee" method="post">
+        <div class="row">
+            <!-- Left Column: Information and Contact Information -->
+            <div class="col-md-6">
+                <h4>Employee Information</h4>
+
+                <!-- Email -->
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required />
+                </div>
+
+                <!-- Password -->
+                <div class="form-group mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required />
+                </div>
+
+                <!-- Name -->
+                <div class="form-group mb-3">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required />
+                </div>
+
+                <!-- Surname -->
+                <div class="form-group mb-3">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" class="form-control" required />
+                </div>
+
+                <h4>Contact Information</h4>
+
+                <!-- Personal Email -->
+                <div class="form-group mb-3">
+                    <label for="emailPersonal">Personal Email</label>
+                    <input type="email" id="emailPersonal" name="emailPersonal" class="form-control" />
+                </div>
+
+                <!-- Mobile -->
+                <div class="form-group mb-3">
+                    <label for="mobile">Mobile</label>
+                    <input type="text" id="mobile" name="mobile" class="form-control" required />
+                </div>
+            </div>
+
+            <!-- Right Column: Salary and Position Information -->
+            <div class="col-md-6">
+                <h4>Position Information</h4>
+
+                <!-- Position -->
+                <div class="form-group mb-3">
+                    <label for="position">Position</label>
+                    <input type="text" id="position" name="position" class="form-control" required />
+                </div>
+
+                <!-- Access Level -->
+                <div class="form-group mb-3">
+                    <label for="accessLevel">Access Level</label>
+                    <input type="text" id="accessLevel" name="accessLevel" class="form-control" required />
+                </div>
+
+                <h4>Salary Information</h4>
+
+                <!-- Salary -->
+                <div class="form-group mb-3">
+                    <label for="salary">Salary</label>
+                    <input type="number" id="salary" name="salary" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary">Add Employee</button>
+        </div>
+    </form>
+</div>

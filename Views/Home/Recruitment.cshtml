@@ -1,0 +1,70 @@
+﻿@model StaffSyncWeb.Models.RecruitmentViewModel
+
+@{
+    ViewData["Title"] = "Recruitment";
+}
+
+<div class="text-center">
+    <h1>Recruitment</h1>
+</div>
+
+<!-- "New Listing" button aligned to the right -->
+<div class="d-flex justify-content-end mt-3">
+    <a class="btn btn-primary" asp-action="NewListing" asp-controller="Home">
+        New Listing
+    </a>
+</div>
+
+<!-- Job Listings Table -->
+<div class="table-responsive mt-4">
+    <h2>Job Listings</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Job Title</th>
+                <th>Job Description</th>
+                <th>Salary</th>
+                <th>Benefits</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var listing in Model.JobListings)
+            {
+                <tr>
+                    <td>@listing.listing_id</td>
+                    <td>@listing.job_title</td>
+                    <td>@listing.job_description</td>
+                    <td>@listing.salary</td>
+                    <td>@listing.benefits</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Applicants Table -->
+<div class="table-responsive mt-5">
+    <h2>Applicants</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Applicant Email</th>
+                <th>Listing Id</th>
+                <th>Name</th>
+                <th>Surname</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var applicant in Model.Applicants)
+            {
+                <tr>
+                    <td>@applicant.applicant_email</td>
+                    <td>@applicant.listing_id</td>
+                    <td>@applicant.name</td>
+                    <td>@applicant.surname</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

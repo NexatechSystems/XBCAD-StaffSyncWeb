@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Messages";
+}
+
+<h1>Messages</h1>
+
+<div class="container mt-4">
+    <form asp-action="SendMessage" method="post">
+        <!-- Dropdown for selecting recipient -->
+        <div class="form-group mb-3">
+            <label for="recipient">Select Recipient</label>
+            <select id="recipient" name="employeeEmail" class="form-control" required>
+                @foreach (var email in ViewBag.EmployeeEmails)
+                {
+                    <option value="@email">@email</option>
+                }
+            </select>
+        </div>
+
+        <!-- Subject field -->
+        <div class="form-group mb-3">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter the subject" required />
+        </div>
+
+        <!-- Message field -->
+        <div class="form-group mb-3">
+            <label for="message">Message</label>
+            <textarea id="message" name="messageText" class="form-control" rows="5" placeholder="Enter your message" required></textarea>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+</div>

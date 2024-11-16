@@ -1,0 +1,43 @@
+﻿@model IEnumerable<StaffSyncWeb.Models.Announcement>
+
+@{
+    ViewData["Title"] = "Announcements";
+}
+
+<h2>Announcements</h2>
+
+<div class="d-flex justify-content-end mt-3">
+    <a class="btn btn-primary" asp-action="CreateAnnouncement">New Announcement</a>
+</div>
+
+<div class="table-responsive mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var announcement in Model)
+            {
+                <tr>
+                    <td>@announcement.announcement_id</td>
+                    <td>@announcement.subject</td>
+                    <td>@announcement.message</td>
+                    <td>
+                        <form asp-action="DeleteAnnouncement" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@announcement.announcement_id" />
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this announcement?');">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

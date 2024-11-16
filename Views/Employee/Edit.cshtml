@@ -1,0 +1,54 @@
+﻿@model StaffSyncWeb.Models.Employee
+
+@{
+    ViewData["Title"] = "Edit Employee";
+}
+
+<h2>Edit Employee</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <!-- Left Side: Information and Contact Information -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="employee_email">Email</label>
+                <input type="email" id="employee_email" name="employee_email" class="form-control" value="@Model.employee_email" readonly />
+            </div>
+            <div class="form-group mt-3">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" value="@Model.password" />
+            </div>
+            <div class="form-group mt-3">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" class="form-control" value="@Model.name" />
+            </div>
+            <div class="form-group mt-3">
+                <label for="surname">Surname</label>
+                <input type="text" id="surname" name="surname" class="form-control" value="@Model.surname" />
+            </div>
+            <div class="form-group mt-3">
+                <label for="email_personal">Personal Email</label>
+                <input type="email" id="email_personal" name="email_personal" class="form-control" value="@Model.email_personal" />
+            </div>
+            <div class="form-group mt-3">
+                <label for="mobile">Mobile</label>
+                <input type="text" id="mobile" name="mobile" class="form-control" value="@Model.mobile" />
+            </div>
+        </div>
+
+        <!-- Right Side: Position and Salary Information -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="position">Position</label>
+                <input type="text" id="position" name="position" class="form-control" value="@Model.position" />
+            </div>
+            <div class="form-group mt-3">
+                <label for="access_level">Access Level</label>
+                <input type="text" id="access_level" name="access_level" class="form-control" value="@Model.access_level" />
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4">Save Changes</button>
+    <a asp-action="Employees" class="btn btn-secondary mt-4">Cancel</a>
+</form>

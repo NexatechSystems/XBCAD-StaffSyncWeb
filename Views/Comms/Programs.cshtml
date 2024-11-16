@@ -1,0 +1,52 @@
+﻿@model IEnumerable<StaffSyncWeb.Models.Programs>
+
+@{
+    ViewData["Title"] = "Programs";
+}
+
+<div class="text-center">
+    <h1>Programs</h1>
+</div>
+
+<!-- "Add Program" button aligned to the right -->
+<div class="d-flex justify-content-end mt-3">
+    <a class="btn btn-primary" asp-action="CreateProgram" asp-controller="Comms">
+        Add Program
+    </a>
+</div>
+
+<div class="table-responsive mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Link</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var program in Model)
+            {
+                <tr>
+                    <td>@program.program_id</td>
+                    <td>@program.employee_email</td>
+                    <td>@program.subject</td>
+                    <td>@program.description</td>
+                    <td>
+                        <a href="@program.link" target="_blank">View Program</a>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteProgram" asp-controller="Comms" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@program.program_id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

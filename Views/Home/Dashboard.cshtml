@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center">
+    <h1>Dashboard</h1>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Employees Hired and Fired per Month</h3>
+            <canvas id="hiredFiredChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h3>Monthly Profits and Expenses</h3>
+            <canvas id="profitsExpensesChart"></canvas>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <h3>Current Headcount</h3>
+            <canvas id="headcountChart"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Employees Hired and Fired per Month
+        var hiredFiredChart = new Chart(document.getElementById('hiredFiredChart'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.Months)),
+                datasets: [
+                    {
+                        label: 'Employees Hired',
+                        data: @Html.Raw(Json.Serialize(ViewBag.EmployeesHired)),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    },
+                    {
+                        label: 'Employees Fired',
+                        data: @Html.Raw(Json.Serialize(ViewBag.EmployeesFired)),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Monthly Profits and Expenses
+        var profitsExpensesChart = new Chart(document.getElementById('profitsExpensesChart'), {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.Months)),
+                datasets: [
+                    {
+                        label: 'Profits',
+                        data: @Html.Raw(Json.Serialize(ViewBag.Profits)),
+                        borderColor: 'rgba(54, 162, 235, 0.6)',
+                        fill: false
+                    },
+                    {
+                        label: 'Expenses',
+                        data: @Html.Raw(Json.Serialize(ViewBag.Expenses)),
+                        borderColor: 'rgba(255, 206, 86, 0.6)',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Current Headcount
+        var headcountChart = new Chart(document.getElementById('headcountChart'), {
+            type: 'pie',
+            data: {
+                labels: @Html.Raw(Json.Serialize(ViewBag.Months)),
+                datasets: [
+                    {
+                        data: @Html.Raw(Json.Serialize(ViewBag.Headcounts)),
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(199, 199, 199, 0.6)',
+                            'rgba(83, 102, 255, 0.6)',
+                            'rgba(153, 159, 64, 0.6)',
+                            'rgba(99, 255, 64, 0.6)',
+                            'rgba(205, 92, 92, 0.6)',
+                            'rgba(135, 206, 235, 0.6)'
+                        ]
+                    }
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+}
