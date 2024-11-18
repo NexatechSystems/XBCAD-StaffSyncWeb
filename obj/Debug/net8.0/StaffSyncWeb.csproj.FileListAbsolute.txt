@@ -101,4 +101,4 @@ C:\Users\hoque\source\repos\StaffSyncWeb\bin\Debug\net8.0\Google.Cloud.Storage.V
 C:\Users\hoque\source\repos\StaffSyncWeb\bin\Debug\net8.0\System.CodeDom.dll
 C:\Users\hoque\source\repos\StaffSyncWeb\bin\Debug\net8.0\System.Management.dll
 C:\Users\hoque\source\repos\StaffSyncWeb\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
-C:\Users\hoque\source\repos\StaffSyncWeb\bin\Debug\net8.0\staffsyncv3-firebase-adminsdk-73og5-96aa16e999.json
+C:\Users\hoque\source\repos\StaffSyncWeb\obj\Debug\net8.0\StaffSyncWeb.sourcelink.json

@@ -19,14 +19,6 @@ namespace StaffSyncWeb.Controllers
         public FinanceController(IConfiguration configuration)
         {
             _configuration = configuration;
-
-            if (FirebaseApp.DefaultInstance == null)
-            {
-                FirebaseApp.Create(new AppOptions()
-                {
-                    Credential = GoogleCredential.FromFile(_serviceAccountPath)
-                });
-            }
         }
 
         private IDbConnection CreateConnection()

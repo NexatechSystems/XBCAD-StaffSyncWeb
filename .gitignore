@@ -1,0 +1,33 @@
+# Ignore Visual Studio temporary files, build results, and
+# build directories.
+
+## Ignore Visual Studio temporary files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignore build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+Bin/
+Obj/
+*.dll
+*.exe
+*.app
+*.log
+
+## Ignore Visual Studio Code workspace settings
+.vscode/
+
+## Ignore Visual Studio database files
+*.mdf
+*.ldf
+
+## Ignore Visual Studio .vs folder
+.vs/
