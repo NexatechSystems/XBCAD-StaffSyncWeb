@@ -2,7 +2,6 @@
 {
     public class RecruitmentViewModel
     {
-        public IEnumerable<JobListing> JobListings { get; set; }
-        public IEnumerable<Applicant> Applicants { get; set; }
+        public IEnumerable<JobListing> JobListings { get; set; }        
     }
 }

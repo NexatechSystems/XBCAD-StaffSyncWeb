@@ -27,6 +27,7 @@ namespace StaffSyncWeb.Controllers
             {
                 var sql = "SELECT employee_email, name, surname, email_personal, mobile, position, access_level\r\n  FROM Employees ";
                 var employees = await connection.QueryAsync<Employee>(sql);
+
                 return View("Employees", employees);
             }
         }
@@ -63,6 +64,7 @@ namespace StaffSyncWeb.Controllers
         {
             using (var connection = CreateConnection())
             {
+                // SQL to add employee details
                 string sql = "INSERT INTO Employees (employee_email, password, name, surname, email_personal, mobile, position, access_level) " +
                              "VALUES (@Email, @Password, @Name, @Surname, @EmailPersonal, @Mobile, @Position, @AccessLevel); " +
 
@@ -70,12 +72,17 @@ namespace StaffSyncWeb.Controllers
                              "VALUES (@Email, @Salary, @Position); " +
 
                              "INSERT INTO Attendance (employee_email, name, surname, clocked_in) " +
-                             "VALUES (@Email, @Name, @Surname, 0)";
+                             "VALUES (@Email, @Name, @Surname, 0);";
 
+                // SQL to add welcome message
                 string sqlMessage = "INSERT INTO Message (subject, message, employee_id) " +
-                                    "VALUES (@Subject, @Message, @Email)";
+                                    "VALUES (@Subject, @Message, @Email);";
 
+                // SQL to log the action in Logs table
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
 
+                // Parameters for inserting employee details
                 var parameters = new
                 {
                     Email = email,
@@ -89,13 +96,22 @@ namespace StaffSyncWeb.Controllers
                     Salary = salary
                 };
 
+                // Execute employee-related queries
                 await connection.ExecuteAsync(sql, parameters);
 
+                // Execute message query
                 await connection.ExecuteAsync(sqlMessage, new
                 {
                     Subject = "Welcome",
                     Message = $"Welcome to the company \nHere are your credentials, keep them safe: \nEmail: {email} \nPassword: {password}",
                     Email = email
+                });
+
+                // Execute log query
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"Employee with email {email} has been added by {GlobalVariables.LoggedInUserEmail}.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
                 });
             }
 
@@ -133,6 +149,11 @@ namespace StaffSyncWeb.Controllers
                              "UPDATE Attendance SET name = @Name, surname = @Surname " +
                              "WHERE employee_email = @EmployeeEmail;";
 
+                // SQL to log the action in Logs table
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
+
                 await connection.ExecuteAsync(sql, new
                 {
                     Password = updatedEmployee.password,
@@ -143,6 +164,12 @@ namespace StaffSyncWeb.Controllers
                     Position = updatedEmployee.position,
                     AccessLevel = updatedEmployee.access_level,
                     EmployeeEmail = updatedEmployee.employee_email
+                });
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"{updatedEmployee.employee_email} details have been edited by {GlobalVariables.LoggedInUserEmail}.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
                 });
 
                 return RedirectToAction("Employees");
@@ -162,7 +189,17 @@ namespace StaffSyncWeb.Controllers
                              "DELETE FROM Message WHERE employee_id = @EmployeeEmail " +
                              "DELETE FROM Employees WHERE employee_email = @EmployeeEmail;";
 
+                // SQL to log the action in Logs table
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                 await connection.ExecuteAsync(sql, new { EmployeeEmail = email });
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"Employee with email {email} has been deleted by {GlobalVariables.LoggedInUserEmail}.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
+                });
             }
             return RedirectToAction("Employees");
         }
@@ -182,11 +219,21 @@ namespace StaffSyncWeb.Controllers
                 {
                     string insertMessageSql = "INSERT INTO Message (subject, message, employee_id) " +
                                               "VALUES (@Subject, @Message, @EmployeeEmail)";
+
+                    string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                                    "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                     await connection.ExecuteAsync(insertMessageSql, new
                     {
                         Subject = "Leave Request Approved",
                         Message = $"Your leave request for {leaveType} has been approved.",
                         EmployeeEmail = employeeEmail
+                    });
+
+                    await connection.ExecuteAsync(sqlLog, new
+                    {
+                        Log = $"Leave request for {employeeEmail} has been approved by {GlobalVariables.LoggedInUserEmail}.",
+                        LoggedInEmail = GlobalVariables.LoggedInUserEmail
                     });
 
                     string sql = "UPDATE Leave SET approved = 1 WHERE leave_id = @LeaveId";
@@ -213,6 +260,10 @@ namespace StaffSyncWeb.Controllers
                     
                     string insertMessageSql = "INSERT INTO Message (subject, message, employee_id) " +
                                               "VALUES (@Subject, @Message, @EmployeeEmail)";
+
+                    string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                                    "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                     await connection.ExecuteAsync(insertMessageSql, new
                     {
                         Subject = "Leave Request Declined",
@@ -220,7 +271,13 @@ namespace StaffSyncWeb.Controllers
                         EmployeeEmail = employeeEmail
                     });
 
-                    
+                    await connection.ExecuteAsync(sqlLog, new
+                    {
+                        Log = $"Leave request for {employeeEmail} has been declined by {GlobalVariables.LoggedInUserEmail}.",
+                        LoggedInEmail = GlobalVariables.LoggedInUserEmail
+                    });
+
+
                     string deleteLeaveSql = "DELETE FROM Leave WHERE leave_id = @LeaveId";
                     await connection.ExecuteAsync(deleteLeaveSql, new { LeaveId = id });
                 }

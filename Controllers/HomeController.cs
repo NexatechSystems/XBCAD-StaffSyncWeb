@@ -45,31 +45,66 @@ namespace StaffSyncWeb.Controllers
         {
             using (var connection = CreateConnection())
             {              
-                string jobListingSql = "SELECT listing_id, job_title, job_description, salary, benefits" +
+                string jobListingSql = "SELECT listing_id, job_title, job_description, salary, benefits, status, contact_email" +
                                        " FROM Listings";
 
-                var jobListings = await connection.QueryAsync<JobListing>(jobListingSql);
+                var jobListings = await connection.QueryAsync<JobListing>(jobListingSql);             
 
-                // Fetch Applicants
-                string applicantSql = "SELECT applicant_email, listing_id, name, surname" +
-                                      " FROM Applicants";
-
-                var applicants = await connection.QueryAsync<Applicant>(applicantSql);
-
-                // Pass data to the view using a ViewModel
-                var model = new RecruitmentViewModel
-                {
-                    JobListings = jobListings,
-                    Applicants = applicants
-                };
-
-                return View(model);
+                return View(jobListings);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
+        {
+            using (var connection = CreateConnection())
+            {
+                // SQL to update the status of the job listing
+                string sql = "UPDATE Listings SET status = @Status WHERE listing_id = @Id";
+
+                await connection.ExecuteAsync(sql, new { Id = id, Status = status });
+            }
+
+            return RedirectToAction("Recruitment");
+        }
+
 
         public IActionResult NewListing()
         {
            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateListing(JobListing newJobListing)
+        {
+            using (var connection = CreateConnection())
+            {
+                string sql = @"
+                            INSERT INTO Listings (job_title, job_description, salary, benefits, status, contact_email)
+                            VALUES (@JobTitle, @JobDescription, @Salary, @Benefits, @Status, @ContactEmail)";
+
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
+
+                await connection.ExecuteAsync(sql, new
+                {
+                    JobTitle = newJobListing.job_title,
+                    JobDescription = newJobListing.job_description,
+                    Salary = newJobListing.salary,
+                    Benefits = newJobListing.benefits,
+                    Status = newJobListing.status,
+                    ContactEmail = newJobListing.contact_email
+                });
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"{GlobalVariables.LoggedInUserEmail} created a new job listing ({newJobListing.job_title}).",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
+                });
+            }
+
+            return RedirectToAction("Recruitment");
         }
 
         public async Task<IActionResult> CompanyRecords()

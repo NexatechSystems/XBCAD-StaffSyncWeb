@@ -62,9 +62,19 @@ namespace StaffSyncWeb.Controllers
             using (var connection = CreateConnection())
             {
                 string sql = "INSERT INTO Message (employee_id, subject, message) VALUES (@EmployeeEmail, @Subject, @Message)";
+
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                 var parameters = new { EmployeeEmail = employeeEmail, Subject = subject, Message = messageText };
 
                 await connection.ExecuteAsync(sql, parameters);
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"Message sent to {employeeEmail} by {GlobalVariables.LoggedInUserEmail}.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
+                });
             }
             return RedirectToAction("Messages");
         }
@@ -81,7 +91,17 @@ namespace StaffSyncWeb.Controllers
             using (var connection = CreateConnection())
             {
                 string sql = "INSERT INTO Announcements (subject, message) VALUES (@Subject, @Message)";
+
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                 await connection.ExecuteAsync(sql, new { Subject = subject, Message = message });
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"{GlobalVariables.LoggedInUserEmail} Sent out an announcement.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
+                });
             }
 
             return RedirectToAction("Announcements");
@@ -93,7 +113,18 @@ namespace StaffSyncWeb.Controllers
             using (var connection = CreateConnection())
             {
                 string sql = "DELETE FROM Announcements WHERE announcement_id = @Id";
+
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                 await connection.ExecuteAsync(sql, new { Id = id });
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"{GlobalVariables.LoggedInUserEmail} deleted an announcement.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
+                });
+
             }
             return RedirectToAction("Announcements");
         }
@@ -119,12 +150,21 @@ namespace StaffSyncWeb.Controllers
                 string sql = "INSERT INTO Programs (employee_email, subject, description, link) " +
                              "VALUES (@EmployeeEmail, @Subject, @Description, @Link)";
 
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                 await connection.ExecuteAsync(sql, new
                 {
                     EmployeeEmail = program.employee_email,
                     Subject = program.subject,
                     Description = program.description,
                     Link = program.link
+                });
+
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"Program added for {program.employee_email} by {GlobalVariables.LoggedInUserEmail}.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
                 });
             }
 

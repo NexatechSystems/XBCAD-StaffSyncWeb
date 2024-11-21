@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using StaffSyncWeb.Models;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -49,7 +50,23 @@ namespace StaffSyncWeb.Controllers
                     return View();
                 }
 
+                // Store the email globally
+                GlobalVariables.LoggedInUserEmail = email;
+
                 return RedirectToAction("Dashboard", "Home");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logs()
+        {
+            using (var connection = CreateConnection())
+            {
+                string sql = "SELECT * FROM Logs ORDER BY date DESC"; // Query to fetch all logs
+
+                var logs = await connection.QueryAsync<LogEntry>(sql);
+
+                return View(logs);
             }
         }
     }

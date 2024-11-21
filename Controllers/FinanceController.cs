@@ -42,6 +42,7 @@ namespace StaffSyncWeb.Controllers
             using (var connection = CreateConnection())
             {
                 string sql = "SELECT employee_id, amount, position FROM Salaries WHERE employee_id = @Id";
+
                 var salary = await connection.QuerySingleOrDefaultAsync<Salary>(sql, new { Id = id });
 
                 if (salary == null)
@@ -59,11 +60,19 @@ namespace StaffSyncWeb.Controllers
             using (var connection = CreateConnection())
             {
                 string sql = "UPDATE Salaries SET amount = @Amount, position = @Position WHERE employee_id = @EmployeeID";
+                string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
+                "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
                 await connection.ExecuteAsync(sql, new
                 {
                     Amount = updatedSalary.amount,
                     Position = updatedSalary.position,
                     EmployeeID = updatedSalary.employee_id
+                });
+                await connection.ExecuteAsync(sqlLog, new
+                {
+                    Log = $"{updatedSalary.employee_id} salary changed by {GlobalVariables.LoggedInUserEmail}.",
+                    LoggedInEmail = GlobalVariables.LoggedInUserEmail
                 });
 
                 return RedirectToAction("Salary"); 

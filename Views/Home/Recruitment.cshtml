@@ -1,4 +1,4 @@
-﻿@model StaffSyncWeb.Models.RecruitmentViewModel
+﻿@model IEnumerable<StaffSyncWeb.Models.JobListing>
 
 @{
     ViewData["Title"] = "Recruitment";
@@ -26,10 +26,13 @@
                 <th>Job Description</th>
                 <th>Salary</th>
                 <th>Benefits</th>
+                <th>Status</th>
+                <th>Contact Email</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var listing in Model.JobListings)
+            @foreach (var listing in Model)
             {
                 <tr>
                     <td>@listing.listing_id</td>
@@ -37,32 +40,20 @@
                     <td>@listing.job_description</td>
                     <td>@listing.salary</td>
                     <td>@listing.benefits</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<!-- Applicants Table -->
-<div class="table-responsive mt-5">
-    <h2>Applicants</h2>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Applicant Email</th>
-                <th>Listing Id</th>
-                <th>Name</th>
-                <th>Surname</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var applicant in Model.Applicants)
-            {
-                <tr>
-                    <td>@applicant.applicant_email</td>
-                    <td>@applicant.listing_id</td>
-                    <td>@applicant.name</td>
-                    <td>@applicant.surname</td>
+                    <td>@listing.status</td>
+                    <td>@listing.contact_email</td>
+                    <td>
+                        <!-- Buttons for changing status -->
+                        <form method="post" asp-action="UpdateStatus" asp-controller="Home">
+                            <input type="hidden" name="id" value="@listing.listing_id" />
+                            <button type="submit" name="status" value="Interviews Ongoing" class="btn btn-warning btn-sm">
+                                Start Interviews
+                            </button>
+                            <button type="submit" name="status" value="Closed" class="btn btn-danger btn-sm">
+                                Close Listing
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
