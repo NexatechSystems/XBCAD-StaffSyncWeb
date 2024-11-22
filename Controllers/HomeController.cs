@@ -1,4 +1,5 @@
 using Dapper;
+using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StaffSyncWeb.Models;
@@ -85,6 +86,14 @@ namespace StaffSyncWeb.Controllers
 
                 string sqlLog = "INSERT INTO Logs (log, date, employee_email) " +
                                 "VALUES (@Log, GETDATE(), @LoggedInEmail);";
+
+                string sqlAnn = "INSERT INTO Announcements (subject, message) VALUES (@Subject, @Message)";
+
+                await connection.ExecuteAsync(sqlAnn, new
+                {
+                    Subject = $"New position opened ({newJobListing.job_title})",
+                    Message = $"Contact {newJobListing.contact_email} for more information"
+                }) ;
 
 
                 await connection.ExecuteAsync(sql, new
