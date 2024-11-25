@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StaffSyncWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f34a4179fb99a5cc618df2763f125106dfb98b19")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("StaffSyncWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StaffSyncWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
